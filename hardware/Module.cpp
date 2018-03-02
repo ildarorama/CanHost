@@ -3,9 +3,12 @@
 //
 
 #include "Module.h"
-#include <glog/logging.h>
 
 
 Module::Module(std::string n):module_name(n) {
-    LOG(INFO) << " Test ";
+
+}
+
+std::string Module::name() {
+    return "sd";
 }

@@ -10,6 +10,7 @@
 #include <boost/property_tree/ptree.hpp>
 
 #include <boost/filesystem.hpp>
+#include <glog/logging.h>
 
 using namespace std;
 
@@ -21,7 +22,9 @@ pt::ptree conf;
 
 
 Module *module;
-int main() {
+int main(int argc, char* argv[]) {
+    google::InitGoogleLogging(argv[0]);
+
   HttpServer server;
   server.config.port = 8081;
 

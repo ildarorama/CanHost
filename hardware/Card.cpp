@@ -8,7 +8,7 @@
 Card::Card(Module *m,const int slot):
         _module(m), _slot(slot)
 {
-    LOG(INFO) << "Create card in module " << _module->name();
+    LOG(INFO) << "Create card in module ";
 }
 
 const int Card::slot() {

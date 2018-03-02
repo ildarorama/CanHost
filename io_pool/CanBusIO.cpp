@@ -1,7 +1,7 @@
 //
 // Created by Ильдар Сулейманов on 02.03.2018.
 //
-
+#include <boost/thread/thread.hpp>
 #include <sys/socket.h>
 #include <unistd.h>
 #include <netinet/in.h>
@@ -67,13 +67,18 @@ void CanBusIO::_pool_func() {
         boost::this_thread::sleep_for(boost::chrono::seconds(1));
     }
 
-    while(! boost::this_thread::interruption_requested()) {
+    while(! _running) {
         std::cout << "Tick....";
         boost::this_thread::sleep_for(boost::chrono::seconds(1));
     }
 }
 
+
 void CanBusIO::start() {
-    _worker=new boost::thread(&CanBusIO::_pool_func,this);
+    boost::thread(&CanBusIO::_pool_func,this);
+}
+
+CanBusIO::CanBusIO() {
+    _running=true;
 }
 
