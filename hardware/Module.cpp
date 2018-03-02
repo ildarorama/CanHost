@@ -3,9 +3,9 @@
 //
 
 #include "Module.h"
-#include "boost/log/trivial.hpp"
+#include <glog/logging.h>
 
 
 Module::Module(std::string n):module_name(n) {
-    BOOST_LOG_TRIVIAL(trace) << "Create module.... " << name();
+    LOG(INFO) << " Test ";
 }

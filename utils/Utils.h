@@ -7,8 +7,7 @@
 
 
 class Utils {
-public:
-    static void init_log();
+
 };
 
 

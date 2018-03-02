@@ -3,3 +3,7 @@
 //
 
 #include "DiscreteInput.h"
+
+DiscreteInput::DiscreteInput(Card *card, int address) : Device(card, address) {
+
+}

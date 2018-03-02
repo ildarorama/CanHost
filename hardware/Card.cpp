@@ -3,12 +3,12 @@
 //
 
 #include "Card.h"
-#include "boost/log/trivial.hpp"
+#include <glog/logging.h>
 
 Card::Card(Module *m,const int slot):
         _module(m), _slot(slot)
 {
-    BOOST_LOG_TRIVIAL(trace) << "Create card in module " << _module->name();
+    LOG(INFO) << "Create card in module " << _module->name();
 }
 
 const int Card::slot() {

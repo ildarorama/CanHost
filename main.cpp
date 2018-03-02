@@ -25,7 +25,6 @@ int main() {
   HttpServer server;
   server.config.port = 8081;
 
-  Utils::init_log();
 
     module=new Module("test");
     Card* card=new Card(module,1);
