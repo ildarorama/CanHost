@@ -1,11 +1,11 @@
-cmake_minimum_required(VERSION 3.7)
+cmake_minimum_required(VERSION 3.0)
 
 project(CanHost)
 
 set(CMAKE_CXX_STANDARD 11)
-include_directories(/usr/local/opt/boost@1.66/include)
-link_directories(/usr/local/opt/boost@1.66/lib)
-link_libraries(boost_iostreams boost_filesystem boost_system boost_thread-mt glog)
+#include_directories(/usr/local/opt/boost@1.66/include)
+#link_directories(/usr/local/opt/boost@1.66/lib)
+link_libraries(boost_iostreams boost_filesystem boost_system boost_thread-mt glog pthread)
 
 add_compile_options("-std=c++11")
 #add_definitions("-DUSE_CAN")
