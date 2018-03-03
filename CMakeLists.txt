@@ -7,5 +7,6 @@ include_directories(/usr/local/opt/boost@1.66/include)
 link_directories(/usr/local/opt/boost@1.66/lib)
 link_libraries(boost_iostreams boost_filesystem boost_system boost_thread-mt glog)
 
+add_compile_options("-std=c++11")
 #add_definitions("-DUSE_CAN")
 add_executable(CanHost main.cpp hardware/Module.cpp hardware/Module.h hardware/Card.cpp hardware/Card.h hardware/Device.cpp hardware/Device.h utils/Utils.cpp utils/Utils.h hardware/DiscreteOutput.cpp hardware/DiscreteOutput.h hardware/DiscreteInput.cpp hardware/DiscreteInput.h hardware/DeviceType.cpp hardware/DeviceType.h io_pool/CanBusIO.cpp io_pool/CanBusIO.h)
