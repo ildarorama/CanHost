@@ -3,8 +3,12 @@
 //
 #include <boost/thread/thread.hpp>
 #include <sys/socket.h>
-#include <unistd.h>
 #include <netinet/in.h>
+#include <arpa/inet.h>
+
+
+#include <glog/logging.h>
+#include <iostream>
 #include "CanBusIO.h"
 
 
@@ -13,21 +17,13 @@ bool CanBusIO::initIpBus() {
         return false;
     }
 
-    int opt = 1;
-    if (setsockopt(_socket_fd, SOL_SOCKET, SO_REUSEADDR | SO_REUSEPORT,
-                   &opt, sizeof(opt)))
-    {
-        close(_socket_fd);
-        return false;
-    }
-
     struct sockaddr_in address;
     address.sin_family = AF_INET;
     address.sin_addr.s_addr = INADDR_ANY;
-    address.sin_port = htons( 5555 );
+    address.sin_port = htons( 5557 );
 
-    if (bind(_socket_fd, (struct sockaddr *)&address,
-             sizeof(address))<0) {
+    int rc= bind(_socket_fd, (struct sockaddr *) &address, sizeof(address) );
+    if ( rc < 0 ) {
         close(_socket_fd);
         return false;
     }
@@ -54,7 +50,7 @@ bool CanBusIO::initCanBus() {
 
     printf("%s at index %d\n", ifname, ifr.ifr_ifindex);
 
-    if(bind(s, (struct sockaddr *)&addr, sizeof(addr)) < 0) {
+    if(bind(_socket_fd, (struct sockaddr *)&addr, sizeof(addr)) < 0) {
         perror("Error in socket bind");
         return -2;
     }
@@ -62,14 +58,25 @@ bool CanBusIO::initCanBus() {
 }
 #endif
 
+void CanBusIO::sendPacket() {
+    struct sockaddr_in address;
+    memset(&address, '\0', sizeof(struct sockaddr_in));
+    address.sin_family = AF_INET;
+    address.sin_addr.s_addr = htonl(inet_addr("192.168.1.1"));
+    address.sin_port = htons(5555);
+
+    PCHECK( sendto(_socket_fd,"123",sizeof(3),0,(const sockaddr*) &address,sizeof(address)) )  << "Can not send udp message: " ;
+}
+
 void CanBusIO::_pool_func() {
     while(! initIpBus() ) {
-        boost::this_thread::sleep_for(boost::chrono::seconds(1));
+       boost::this_thread::sleep_for(boost::chrono::seconds(1));
     }
 
-    while(! _running) {
-        std::cout << "Tick....";
+    while(_running) {
+        std::cout << "Tick....\n";
         boost::this_thread::sleep_for(boost::chrono::seconds(1));
+        sendPacket();
     }
 }
 

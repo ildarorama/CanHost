@@ -16,7 +16,10 @@ public:
 private:
     int _socket_fd;
 
+#ifdef USE_CAN
     bool initCanBus();
+#endif
+    void sendPacket();
     bool initIpBus();
     boost::thread* _worker;
     void _pool_func();

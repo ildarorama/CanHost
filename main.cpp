@@ -10,7 +10,11 @@
 #include <boost/property_tree/ptree.hpp>
 
 #include <boost/filesystem.hpp>
+#define GLOG_logtostderr 1
 #include <glog/logging.h>
+
+
+#define SERVER_PORT 8081
 
 using namespace std;
 
@@ -20,45 +24,48 @@ using HttpServer = SimpleWeb::Server<SimpleWeb::HTTP>;
 
 pt::ptree conf;
 
-
 Module *module;
-int main(int argc, char* argv[]) {
-    google::InitGoogleLogging(argv[0]);
+int main(int argc, char* argv[]) { //(int argc, char* argv[]) {
+    google::InitGoogleLogging("CanHost");
+    google::SetLogDestination(google::GLOG_INFO,"CanHost");
+    google::SetLogFilenameExtension(".log");
+    google::SetStderrLogging(google::GLOG_INFO);
 
-  HttpServer server;
-  server.config.port = 8081;
 
+    HttpServer server;
+    server.config.port = SERVER_PORT;
 
+    CanBusIO* io=new CanBusIO();
+    io->start();
     module=new Module("test");
     Card* card=new Card(module,1);
-
-    CanBusIO io;
-    io.start();
 
 
   server.resource["^/api$"]["POST"] = [](shared_ptr<HttpServer::Response> response, shared_ptr<HttpServer::Request> request) {
      try {
-         pt::ptree data;
-         pt::ptree data2;
-         pt::read_json(request->content, data);
+         LOG(INFO) << "Process REST: " << request->query_string;
 
-         conf.put("ette",2);
-         conf.put("ewqeq.dsfsdf",232);
+//         pt::ptree data;
+//         pt::ptree data2;
+  //       pt::read_json(request->content, data);
+
+//         conf.put("ette",2);
+  //       conf.put("ewqeq.dsfsdf",232);
 
 
          //basic_ostream os=response->put('');
 
          //pt::write_json(response->put(' '),conf);
 
-         std::stringstream ss;
+         //std::stringstream ss;
 
 
-         pt::write_json(ss,conf,true);
+         //pt::write_json(ss,conf,true);
 
 
          //auto name=pt.get<string>("test");
 
-         response->write(ss);
+         //response->write("23");
      } catch(const exception &e) {
          response->write(SimpleWeb::StatusCode::client_error_bad_request, e.what());
      }
@@ -77,7 +84,7 @@ int main(int argc, char* argv[]) {
   // It is serve resources
   server.default_resource["GET"] = [](shared_ptr<HttpServer::Response> response, shared_ptr<HttpServer::Request> request) {
     try {
-      auto web_root_path = boost::filesystem::canonical("../web");
+      auto web_root_path = boost::filesystem::canonical("web");
       auto path = boost::filesystem::canonical(web_root_path / request->path);
       // Check if path is within web_root_path
       if(distance(web_root_path.begin(), web_root_path.end()) > distance(path.begin(), path.end()) ||
@@ -95,6 +102,9 @@ int main(int argc, char* argv[]) {
       ifs->open(path.string(), ifstream::in | ios::binary | ios::ate);
 
       if(*ifs) {
+
+          LOG(INFO) << "Get web query " << path.string();
+
         auto length = ifs->tellg();
         ifs->seekg(0, ios::beg);
 
@@ -130,12 +140,12 @@ int main(int argc, char* argv[]) {
     }
   };
 
-  server.on_error = [](shared_ptr<HttpServer::Request> /*request*/, const SimpleWeb::error_code & /*ec*/) {
-    // Handle errors here
+  server.on_error = [](shared_ptr<HttpServer::Request> request, const SimpleWeb::error_code & ec) {
+    LOG(ERROR) << "Caught error while processing web request: " << request->path << ec.message();
   };
 
   thread server_thread([&server]() {
-    // Start server
+    LOG(INFO) << "Starting Web server on port: " << SERVER_PORT;
     server.start();
   });
 
