@@ -14,6 +14,7 @@ private:
 public:
     Module(std::string);
     std::string name();
+    void test();
 };
 
 
