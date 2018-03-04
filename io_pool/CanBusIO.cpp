@@ -85,16 +85,23 @@ void CanBusIO::sendIpPacket() {
 }
 
 void CanBusIO::_pool_func() {
-    while(! initIpBus() ) {
+#ifdef USE_CAN
+    while(! initCanBus() ) {
        boost::this_thread::sleep_for(boost::chrono::seconds(1));
     }
+#else
+    while(! initIpBus() ) {
+        boost::this_thread::sleep_for(boost::chrono::seconds(1));
+    }
+#endif
 
     while(_running) {
         std::cout << "Tick....\n";
         boost::this_thread::sleep_for(boost::chrono::seconds(1));
-        sendIpPacket();
 #ifdef USE_CAN
         sendCanPacket();
+#else
+        sendIpPacket();
 #endif
     }
 }
