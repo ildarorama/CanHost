@@ -2,7 +2,11 @@
 // Created by Ильдар Сулейманов on 02.03.2018.
 //
 #include <boost/thread/thread.hpp>
+
+#include <net/if.h>
+#include <sys/ioctl.h>
 #include <sys/socket.h>
+#include <sys/ioctl.h>
 #include <netinet/in.h>
 #include <arpa/inet.h>
 
@@ -13,7 +17,6 @@
 
 #include <glog/logging.h>
 #include <iostream>
-#include <sys/ioctl.h>
 #include "CanBusIO.h"
 #include "../utils/Settings.h"
 
@@ -26,7 +29,7 @@ bool CanBusIO::initIpBus() {
     struct sockaddr_in address;
     address.sin_family = AF_INET;
     address.sin_addr.s_addr = INADDR_ANY;
-    address.sin_port = htons( 5557 );
+    address.sin_port = htons( Settings::Instance().can_bus_proxy_port() );
 
     int rc= bind(_socket_fd, (struct sockaddr *) &address, sizeof(address) );
     if ( rc < 0 ) {
@@ -75,8 +78,8 @@ void CanBusIO::sendIpPacket() {
     struct sockaddr_in address;
     memset(&address, '\0', sizeof(struct sockaddr_in));
     address.sin_family = AF_INET;
-    address.sin_addr.s_addr = htonl(inet_addr("192.168.1.1"));
-    address.sin_port = htons(5555);
+    address.sin_addr.s_addr = htonl(inet_addr(Settings::Instance().can_bus_proxy_host().c_str()));
+    address.sin_port = htons(Settings::Instance().can_bus_proxy_port());
 
     PCHECK( sendto(_socket_fd,"123",sizeof(3),0,(const sockaddr*) &address,sizeof(address)) )  << "Can not send udp message: " ;
 }

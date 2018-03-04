@@ -16,14 +16,21 @@ public:
     int web_server_port();
     std::string web_path();
     std::string can_bus_iface();
+    int can_bus_speed();
+    std::string can_bus_proxy_host();
+    int can_bus_proxy_port();
 private:
     Settings();
     Settings(Settings const&) = delete;
     Settings& operator= (Settings const&) = delete;
 
     int _web_port=8080;
+    int _can_bus_proxy_port=5555;
     std::string _web_path="web";
     std::string _can_bus_iface="can0";
+    std::string _can_bus_proxy_host="127.0.0.1";
+    int _can_bus_speed=512000;
+
 };
 
 

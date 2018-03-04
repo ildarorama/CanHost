@@ -30,8 +30,11 @@ int main(int argc, char* argv[]) {
 
     char *error;
     int (*work)(Module *);
+#ifdef USE_CAN
+    void* handle = dlopen("scripts/libtestscript.so", RTLD_LAZY);
+#else
     void* handle = dlopen("scripts/libtestscript.dylib", RTLD_LAZY);
-
+#endif
 
     work =(int (*)(Module *)) dlsym(handle, "work");
     if ((error = dlerror()) != NULL)  {
