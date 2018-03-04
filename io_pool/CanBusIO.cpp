@@ -46,6 +46,7 @@ bool CanBusIO::initCanBus() {
     struct can_frame frame;
     struct ifreq ifr;
 
+    LOG(INFO) << "Create can socket...";
     if((_socket_fd = socket(PF_CAN, SOCK_RAW, CAN_RAW)) < 0) {
         PLOG(ERROR) << "Error while opening can socket: ";
         perror("Error while opening socket");
@@ -57,8 +58,7 @@ bool CanBusIO::initCanBus() {
     addr.can_family  = AF_CAN;
     addr.can_ifindex = ifr.ifr_ifindex;
 
-    printf("%s at index %d\n", ifname, ifr.ifr_ifindex);
-
+    LOG(INFO) << "Bind can socket to interface: " << Settings::Instance().can_bus_iface();
     if(bind(_socket_fd, (struct sockaddr *)&addr, sizeof(addr)) < 0) {
         PLOG(ERROR) << "Error in can socket bind: ";
         return false;

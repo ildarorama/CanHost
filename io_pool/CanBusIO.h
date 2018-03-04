@@ -22,7 +22,6 @@ private:
 #endif
     void sendIpPacket();
     bool initIpBus();
-    bool initCanBus();
     boost::thread* _worker;
     void _pool_func();
     bool _running;
