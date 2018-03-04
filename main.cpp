@@ -31,9 +31,9 @@ int main(int argc, char* argv[]) {
     char *error;
     int (*work)(Module *);
 #ifdef USE_CAN
-    void* handle = dlopen("libtestscript.so", RTLD_LAZY);
+    void* handle = dlopen("plugin/libtestscript.so", RTLD_LAZY);
 #else
-    void* handle = dlopen("libtestscript.dylib", RTLD_LAZY);
+    void* handle = dlopen("plugin/libtestscript.dylib", RTLD_LAZY);
 #endif
 
     work =(int (*)(Module *)) dlsym(handle, "work");
