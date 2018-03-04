@@ -3,6 +3,7 @@ cmake_minimum_required(VERSION 3.0)
 project(CanHostPlugin)
 
 set(CMAKE_CXX_STANDARD 11)
+set(LIBRARY_OUTPUT_DIRECTORY "../plugin")
 link_libraries(boost_iostreams boost_filesystem boost_system boost_thread-mt glog pthread)
 
 add_compile_options("-std=c++11")
