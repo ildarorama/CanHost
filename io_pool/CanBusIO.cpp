@@ -6,6 +6,10 @@
 #include <netinet/in.h>
 #include <arpa/inet.h>
 
+#ifdef USE_CAN
+#include <linux/can.h>
+#include <linux/can/raw.h>
+#endif
 
 #include <glog/logging.h>
 #include <iostream>
@@ -56,6 +60,13 @@ bool CanBusIO::initCanBus() {
     }
 
 }
+
+void CanBusIO::sendPacket() {
+    struct can_frame frame;
+    write(_socket_fd,&frame, sizeof (struct can_frame));
+
+}
+
 #endif
 
 void CanBusIO::sendPacket() {
