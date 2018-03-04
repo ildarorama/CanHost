@@ -13,9 +13,8 @@ link_libraries(boost_iostreams boost_filesystem boost_system boost_thread-mt glo
 
 
 if(LINUX)
-    project(CanProxy C)
-    target_link_libraries(CanProxy pthread)
     add_executable(CanProxy can_proxy/proxy.c)
+    target_link_libraries(CanProxy pthread)
     add_definitions("-DUSE_CAN")
 endif()
 
