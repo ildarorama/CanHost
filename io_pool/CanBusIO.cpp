@@ -13,7 +13,9 @@
 
 #include <glog/logging.h>
 #include <iostream>
+#include <sys/ioctl.h>
 #include "CanBusIO.h"
+#include "../utils/Settings.h"
 
 
 bool CanBusIO::initIpBus() {
@@ -42,34 +44,34 @@ bool CanBusIO::initCanBus() {
     struct ifreq ifr;
 
     if((_socket_fd = socket(PF_CAN, SOCK_RAW, CAN_RAW)) < 0) {
+        PLOG(ERROR) << "Error while opening can socket: ";
         perror("Error while opening socket");
-        return -1;
+        return false;
     }
 
-    strcpy(ifr.ifr_name, ifname);
-    ioctl(s, SIOCGIFINDEX, &ifr);
-
+    strcpy(ifr.ifr_name, Settings::Instance().can_bus_iface().c_str());
+    ioctl(_socket_fd, SIOCGIFINDEX, &ifr);
     addr.can_family  = AF_CAN;
     addr.can_ifindex = ifr.ifr_ifindex;
 
     printf("%s at index %d\n", ifname, ifr.ifr_ifindex);
 
     if(bind(_socket_fd, (struct sockaddr *)&addr, sizeof(addr)) < 0) {
-        perror("Error in socket bind");
-        return -2;
+        PLOG(ERROR) << "Error in can socket bind: ";
+        return false;
     }
+    return true;
 
 }
 
-void CanBusIO::sendPacket() {
+void CanBusIO::sendCanPacket() {
     struct can_frame frame;
     write(_socket_fd,&frame, sizeof (struct can_frame));
-
 }
 
 #endif
 
-void CanBusIO::sendPacket() {
+void CanBusIO::sendIpPacket() {
     struct sockaddr_in address;
     memset(&address, '\0', sizeof(struct sockaddr_in));
     address.sin_family = AF_INET;
@@ -87,7 +89,10 @@ void CanBusIO::_pool_func() {
     while(_running) {
         std::cout << "Tick....\n";
         boost::this_thread::sleep_for(boost::chrono::seconds(1));
-        sendPacket();
+        sendIpPacket();
+#ifdef USE_CAN
+        sendCanPacket();
+#endif
     }
 }
 

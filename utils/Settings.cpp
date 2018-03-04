@@ -20,6 +20,7 @@ bool Settings::load() {
         boost::property_tree::read_json(SERVER_CONFIG_FILE, pt);
         _web_port=pt.get<int>("web_server_port");
         _web_path=pt.get<std::string>("web_server_path");
+        _can_bus_iface=pt.get<std::string>("canbus.iface");
 
     } catch(boost::property_tree::json_parser_error e) {
         LOG(ERROR) << "Can not load config: " << e.message();
@@ -34,6 +35,7 @@ bool Settings::createDefault() {
     boost::property_tree::ptree pt;
     pt.put("web_server_port",_web_port);
     pt.put("web_server_path",_web_path);
+    pt.put("canbus.iface",_can_bus_iface);
     try {
         boost::property_tree::write_json(SERVER_CONFIG_FILE, pt, std::locale(), true);
     } catch( boost::property_tree::json_parser_error e) {
@@ -54,4 +56,8 @@ int Settings::web_server_port() {
 
 std::string Settings::web_path() {
     return _web_path;
+}
+
+std::string Settings::can_bus_iface() {
+    return _can_bus_iface;
 }

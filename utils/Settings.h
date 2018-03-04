@@ -15,6 +15,7 @@ public:
 
     int web_server_port();
     std::string web_path();
+    std::string can_bus_iface();
 private:
     Settings();
     Settings(Settings const&) = delete;
@@ -22,6 +23,7 @@ private:
 
     int _web_port=8080;
     std::string _web_path="web";
+    std::string _can_bus_iface="can0";
 };
 
 
