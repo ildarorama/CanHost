@@ -71,7 +71,6 @@ void CanBusIO::sendCanPacket() {
     struct can_frame frame;
     write(_socket_fd,&frame, sizeof (struct can_frame));
 }
-
 #endif
 
 void CanBusIO::sendIpPacket() {
