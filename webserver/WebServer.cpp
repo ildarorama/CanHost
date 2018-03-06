@@ -38,6 +38,11 @@ namespace WebServer {
             this->apiHandler(response, request);
         };
 
+        _server.resource["^/scripts"]["GET"] = [this](std::shared_ptr<SimpleWeb::Server<SimpleWeb::HTTP>::Response> response, std::shared_ptr<SimpleWeb::Server<SimpleWeb::HTTP>::Request> request) {
+            this->scriptStaticHandler(response, request);
+        };
+
+
         _server.default_resource["GET"] = [this](std::shared_ptr<SimpleWeb::Server<SimpleWeb::HTTP>::Response> response, std::shared_ptr<SimpleWeb::Server<SimpleWeb::HTTP>::Request> request) {
             this->staticHandler(response, request);
         };
@@ -65,41 +70,60 @@ namespace WebServer {
         }
     }
 
+
+    static void createStaticResponse(boost::filesystem::path path,
+                                     std::shared_ptr<SimpleWeb::Server<SimpleWeb::HTTP>::Response> response) {
+        SimpleWeb::CaseInsensitiveMultimap header;
+        header.emplace("Cache-Control", "max-age=0");
+
+        auto ifs = make_shared<ifstream>();
+        ifs->open(path.string(), ifstream::in | ios::binary | ios::ate);
+
+        if (*ifs) {
+            LOG(INFO) << "Get script query " << path.string();
+
+            auto length = ifs->tellg();
+            ifs->seekg(0, ios::beg);
+
+            header.emplace("Content-Length", to_string(length));
+            response->write(header);
+            read_and_send(response, ifs);
+        } else
+            throw invalid_argument("could not read file");
+    }
+
+    void WebServer::scriptStaticHandler(std::shared_ptr<SimpleWeb::Server<SimpleWeb::HTTP>::Response> response,
+                                  std::shared_ptr<SimpleWeb::Server<SimpleWeb::HTTP>::Request> request) {
+
+
+        auto web_root_path = boost::filesystem::canonical("./scripts");
+        auto path = boost::filesystem::canonical(web_root_path / request->path);
+        LOG(INFO) << "Try get script file " << path;
+
+        if  (
+                distance(web_root_path.begin(), web_root_path.end()) > distance(path.begin(), path.end()) ||
+            !equal(web_root_path.begin(), web_root_path.end(), path.begin()) ||
+                boost::filesystem::is_directory(path)
+            ) throw invalid_argument("path must be within root path");
+            createStaticResponse(path,response);
+    }
+
     void WebServer::staticHandler(std::shared_ptr<SimpleWeb::Server<SimpleWeb::HTTP>::Response> response,
                                   std::shared_ptr<SimpleWeb::Server<SimpleWeb::HTTP>::Request> request) {
         try {
             auto web_root_path = boost::filesystem::canonical(Settings::Instance().web_path());
             auto path = boost::filesystem::canonical(web_root_path / request->path);
+            LOG(INFO) << "Try get resource file " << path;
+
             // Check if path is within web_root_path
             if (distance(web_root_path.begin(), web_root_path.end()) > distance(path.begin(), path.end()) ||
-                !equal(web_root_path.begin(), web_root_path.end(), path.begin()))
-                throw invalid_argument("path must be within root path");
-            if (boost::filesystem::is_directory(path))
-                path /= "index.html";
-
-
-            SimpleWeb::CaseInsensitiveMultimap header;
-            header.emplace("Cache-Control", "max-age=0");
-
-
-            auto ifs = make_shared<ifstream>();
-            ifs->open(path.string(), ifstream::in | ios::binary | ios::ate);
-
-            if (*ifs) {
-                LOG(INFO) << "Get web query " << path.string();
-
-                auto length = ifs->tellg();
-                ifs->seekg(0, ios::beg);
-
-                header.emplace("Content-Length", to_string(length));
-                response->write(header);
-                read_and_send(response, ifs);
-            } else
-                throw invalid_argument("could not read file");
+                !equal(web_root_path.begin(), web_root_path.end(), path.begin())
+                ) throw invalid_argument("path must be within root path");
+            if (boost::filesystem::is_directory(path)) path /= "index.html";
+            createStaticResponse(path,response);
         }
         catch (const exception &e) {
-            response->write(SimpleWeb::StatusCode::client_error_bad_request,
-                            "Could not open path " + request->path + ": " + e.what());
+            response->write(SimpleWeb::StatusCode::client_error_bad_request, "Could not open path " + request->path + ": " + e.what());
         }
     }
 

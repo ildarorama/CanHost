@@ -23,6 +23,8 @@ namespace WebServer {
 
         void staticHandler(std::shared_ptr<SimpleWeb::Server<SimpleWeb::HTTP>::Response> response, std::shared_ptr<SimpleWeb::Server<SimpleWeb::HTTP>::Request> request);
 
+        void scriptStaticHandler(std::shared_ptr<SimpleWeb::Server<SimpleWeb::HTTP>::Response> response, std::shared_ptr<SimpleWeb::Server<SimpleWeb::HTTP>::Request> request);
+
         SimpleWeb::Server<SimpleWeb::HTTP> _server;
 
         void init();

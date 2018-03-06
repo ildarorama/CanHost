@@ -36,12 +36,12 @@ int main(int argc, char* argv[]) {
     void* handle = dlopen("plugin/libtestscript.dylib", RTLD_LAZY);
 #endif
 
-    work =(int (*)(Module *)) dlsym(handle, "work");
-    if ((error = dlerror()) != NULL)  {
-        fprintf (stderr, "%s\n", error);
-        exit(1);
-    }
-    printf ("%d\n", (*work)(module));
+//    work =(int (*)(Module *)) dlsym(handle, "work");
+//    if ((error = dlerror()) != NULL)  {
+  //      fprintf (stderr, "%s\n", error);
+//        exit(1);
+//    }
+//    printf ("%d\n", (*work)(module));
     dlclose(handle);
 
     WebServer::WebServer::Instance().start();

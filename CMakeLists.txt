@@ -10,7 +10,8 @@ set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY objects)
 
 link_libraries(boost_iostreams boost_filesystem boost_system boost_thread-mt glog pthread dl)
-
+include_directories("/usr/local/include")
+link_directories("/usr/local/lib")
 
 if(LINUX)
     add_executable(CanProxy can_proxy/proxy.c)
