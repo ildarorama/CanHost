@@ -6,7 +6,8 @@
 #include "../utils/Settings.h"
 
 #include <glog/logging.h>
-
+#include <boost/property_tree/ptree.hpp>
+#include <boost/property_tree/json_parser.hpp>
 
 
 namespace WebServer {
@@ -38,10 +39,9 @@ namespace WebServer {
             this->apiHandler(response, request);
         };
 
-        _server.resource["^/scripts"]["GET"] = [this](std::shared_ptr<SimpleWeb::Server<SimpleWeb::HTTP>::Response> response, std::shared_ptr<SimpleWeb::Server<SimpleWeb::HTTP>::Request> request) {
+        _server.resource["^/scripts/(.*cpp)$"]["GET"] = [this](std::shared_ptr<SimpleWeb::Server<SimpleWeb::HTTP>::Response> response, std::shared_ptr<SimpleWeb::Server<SimpleWeb::HTTP>::Request> request) {
             this->scriptStaticHandler(response, request);
         };
-
 
         _server.default_resource["GET"] = [this](std::shared_ptr<SimpleWeb::Server<SimpleWeb::HTTP>::Response> response, std::shared_ptr<SimpleWeb::Server<SimpleWeb::HTTP>::Request> request) {
             this->staticHandler(response, request);
@@ -96,7 +96,7 @@ namespace WebServer {
                                   std::shared_ptr<SimpleWeb::Server<SimpleWeb::HTTP>::Request> request) {
 
 
-        auto web_root_path = boost::filesystem::canonical("./scripts");
+        auto web_root_path = boost::filesystem::canonical(".");
         auto path = boost::filesystem::canonical(web_root_path / request->path);
         LOG(INFO) << "Try get script file " << path;
 
@@ -131,6 +131,24 @@ namespace WebServer {
                                std::shared_ptr<SimpleWeb::Server<SimpleWeb::HTTP>::Request> request) {
         try {
             LOG(INFO) << "Process REST: " << request->query_string;
+
+            boost::property_tree::ptree pt;
+            boost::property_tree::read_json(request->content,pt);
+            LOG(INFO) << "Get api request: " <<pt.get<string>("query");
+
+
+            std::string content=pt.get<string>("content");
+
+            std::ofstream outfile("scripts/testscript.cpp");
+            outfile << content;
+            outfile.close();
+
+            boost::property_tree::ptree resp;
+            resp.put("success",true);
+
+
+            response->write("{success: true}");
+
         } catch (const std::exception &e) {
             response->write(SimpleWeb::StatusCode::client_error_bad_request, e.what());
         }

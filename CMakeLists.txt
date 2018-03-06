@@ -8,6 +8,7 @@ endif()
 
 set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY objects)
+set( CMAKE_RUNTIME_OUTPUT_DIRECTORY "../")
 
 link_libraries(boost_iostreams boost_filesystem boost_system boost_thread-mt glog pthread dl)
 include_directories("/usr/local/include")

@@ -5,5 +5,6 @@
 
 extern "C" int work(Module *m) {
     m->test();
-    return 0;
+//ildar
+    return 3;
 }
