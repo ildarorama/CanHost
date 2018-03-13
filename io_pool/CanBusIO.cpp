@@ -97,6 +97,16 @@ void CanBusIO::_pool_func() {
     while(_running) {
         std::cout << "Tick....\n";
         boost::this_thread::sleep_for(boost::chrono::seconds(1));
+
+
+        CanMessage mes(NULL,0);
+
+
+        if (_queue.pop(mes)) {
+
+            LOG(INFO) << "Receive message " << mes.data();
+        }
+
 #ifdef USE_CAN
         sendCanPacket();
 #else
@@ -113,4 +123,9 @@ void CanBusIO::start() {
 CanBusIO::CanBusIO() {
     _running=true;
 }
+
+void CanBusIO::sendMessage(const CanMessage& message) {
+    _queue.push(message);
+}
+
 

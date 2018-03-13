@@ -4,6 +4,7 @@
 #include "io_pool/CanBusIO.h"
 #include "utils/Settings.h"
 #include "webserver/WebServer.h"
+#include "hid_io/ZeroMqServer.h"
 
 #include <glog/logging.h>
 #include <dlfcn.h>
@@ -21,11 +22,15 @@ int main(int argc, char* argv[]) {
         }
     }
 
+
+    ZeroMqServer::Instance().start();
+
     CanBusIO* io=new CanBusIO();
     io->start();
     module=new Module("test");
     Card* card=new Card(module,1);
 
+    io->sendMessage(CanMessage((void *)"123",4));
 
 
     char *error;

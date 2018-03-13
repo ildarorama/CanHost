@@ -8,11 +8,14 @@
 
 
 #include <boost/thread/thread.hpp>
+#include <boost/lockfree/queue.hpp>
+#include "CanMessage.h"
 
 class CanBusIO final {
 public:
     CanBusIO();
     void start();
+    void sendMessage(const CanMessage& message);
 private:
     int _socket_fd;
 
@@ -25,6 +28,7 @@ private:
     boost::thread* _worker;
     void _pool_func();
     bool _running;
+    boost::lockfree::queue<CanMessage> _queue;
 };
 
 
