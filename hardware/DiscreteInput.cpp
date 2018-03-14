@@ -4,6 +4,6 @@
 
 #include "DiscreteInput.h"
 
-DiscreteInput::DiscreteInput(Card *card, int address) : Device(card, address) {
+DiscreteInput::DiscreteInput(const Card& card, int address) : Device(card, address,DeviceType::DIGITAL_OUTPUT_32_CHANNEL) {
 
 }

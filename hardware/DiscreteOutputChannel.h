@@ -8,16 +8,17 @@
 
 #include "Device.h"
 #include "DiscreteOutputDevice.h"
+#include <functional>
 
 class DiscreteOutputChannel {
 public:
-    DiscreteOutputChannel(int offset,std::function<void(const DiscreteOutputDevice*, bool,bool,int)> listener);
+    DiscreteOutputChannel(int offset);
     bool state();
     bool state(bool state);
 private:
     int _offset;
     bool _state=false;
-    std::function<int(const DiscreteOutputDevice&, bool,bool,int)> _listener;
+
 };
 
 

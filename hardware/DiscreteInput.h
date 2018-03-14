@@ -9,7 +9,7 @@
 #include "Device.h"
 
 class DiscreteInput: public Device {
-    DiscreteInput(Card *card, int address);
+    DiscreteInput(const Card& card, int address);
 
 };
 

@@ -4,4 +4,3 @@
 
 #include "DeviceClass.h"
 
-DeviceClass::DIGITAL_INPUT();

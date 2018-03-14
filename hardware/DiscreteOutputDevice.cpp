@@ -4,15 +4,14 @@
 
 #include "DiscreteOutputDevice.h"
 
-DiscreteOutputDevice::DiscreteOutputDevice(Card *card, int address) : Device(card, address, DeviceType::DIGITAL_OUTPUT_32_CHANNEL) {
+DiscreteOutputDevice::DiscreteOutputDevice(Card& card, int address) : Device(card, address, DeviceType::DIGITAL_OUTPUT_32_CHANNEL) {
 
     for(int i=0;i<32;i++) {
 
-        const DiscreteOutputChannel& v=DiscreteOutputChannel::DiscreteOutputChannel(
-                1,
-                &DiscreteOutputDevice::changeStateRequestListener
-        );
-        _channels.push_back(v);
+        DiscreteOutputChannel p=DiscreteOutputChannel::DiscreteOutputChannel(i);
+
+        _channels.push_back(&p);
+
     }
 }
 

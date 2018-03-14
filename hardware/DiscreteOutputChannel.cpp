@@ -4,8 +4,8 @@
 
 #include "DiscreteOutputChannel.h"
 
-DiscreteOutputChannel::DiscreteOutputChannel(int offset,std::function<void(const DiscreteOutputDevice*, bool,bool,int)> listener) :
-        _offset(offset), _listener(listener) {
+DiscreteOutputChannel::DiscreteOutputChannel(int offset) :
+        _offset(offset) {
 
 }
 
@@ -15,7 +15,7 @@ bool DiscreteOutputChannel::state() {
 
 bool DiscreteOutputChannel::state(bool state) {
     if ( _state != state ) {
-        _listener(_state,state,_offset);
+        //_listener(_state,state,_offset);
     }
     return _state=state;
 }

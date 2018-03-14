@@ -8,8 +8,8 @@
 
 class DeviceClass {
 public:
-    DeviceClass& DIGITAL_INPUT;
-    DeviceClass& DIGITAL_INPUT;
+    static DeviceClass& DIGITAL_INPUT;
+    static DeviceClass& DIGITAL_OUTPUT;
 };
 
 

@@ -12,13 +12,14 @@
 
 #include <vector>
 #include <map>
+#include <boost/ref.hpp>
 
 class DiscreteOutputDevice: public Device {
 public:
-    DiscreteOutputDevice(Card *card,int address);
+    DiscreteOutputDevice(Card& card,int address);
     void changeStateRequestListener(bool oldState,bool newState,int address);
 private:
-    std::vector<const DiscreteOutputChannel &> _channels;
+    std::vector<DiscreteOutputChannel *> _channels;
 };
 
 

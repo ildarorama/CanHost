@@ -10,14 +10,15 @@
 #include "DeviceType.h"
 
 class Device {
+protected:
+    Device(const Card &card, int address, DeviceType &deviceType);
 private:
-    Card* _card;
+    const Card& _card;
     DeviceType& _deviceType;
     int _address;
     int _fw_version_minor;
     int _fw_version_major;
 public:
-    Device(Card *card,int address,const DeviceType& deviceType);
     int address();
     const DeviceType& deviceType();
     std::string fw_version();
