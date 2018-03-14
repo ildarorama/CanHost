@@ -7,7 +7,12 @@
 
 
 class DeviceType {
-
+public:
+    DeviceType(const DeviceType&) = delete;
+    static const DeviceType DIGITAL_OUTPUT_32_CHANNEL;
+private:
+    const std::string _name;
+    DeviceType(std::string name);
 };
 
 
