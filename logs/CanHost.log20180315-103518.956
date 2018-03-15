@@ -1,0 +1,4 @@
+Log file created at: 2018/03/15 10:35:18
+Running on machine: MacBook-Pro-Ildar.local
+Log line format: [IWEF]mmdd hh:mm:ss.uuuuuu threadid file:line] msg
+I0315 10:35:18.564371 2796585792 Settings.cpp:17] Load server config from settings.json

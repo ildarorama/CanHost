@@ -1,0 +1,69 @@
+Log file created at: 2018/03/15 10:36:32
+Running on machine: MacBook-Pro-Ildar.local
+Log line format: [IWEF]mmdd hh:mm:ss.uuuuuu threadid file:line] msg
+I0315 10:36:32.168171 2796585792 Settings.cpp:17] Load server config from settings.json
+I0315 10:36:32.169960 2796585792 Module.cpp:11] Create module test
+I0315 10:36:32.169975 2796585792 Card.cpp:10] Create card in module sd
+I0315 10:36:32.170233 2796585792 WebServer.cpp:36] Configure http server...
+I0315 10:36:32.170385 167247872 WebServer.cpp:24] Starting Web server on port: 8080
+I0315 10:36:33.171047 166174720 ZeroMqServer.cpp:24] Work thread zeromq 
+I0315 10:36:33.171104 166711296 CanBusIO.cpp:108] Receive message 0x108bb716a
+I0315 10:36:34.175518 166174720 ZeroMqServer.cpp:24] Work thread zeromq 
+I0315 10:36:35.179589 166174720 ZeroMqServer.cpp:24] Work thread zeromq 
+I0315 10:36:36.183203 166174720 ZeroMqServer.cpp:24] Work thread zeromq 
+I0315 10:36:37.187791 166174720 ZeroMqServer.cpp:24] Work thread zeromq 
+I0315 10:36:38.191186 166174720 ZeroMqServer.cpp:24] Work thread zeromq 
+I0315 10:36:39.192965 166174720 ZeroMqServer.cpp:24] Work thread zeromq 
+I0315 10:36:40.195076 166174720 ZeroMqServer.cpp:24] Work thread zeromq 
+I0315 10:36:41.197490 166174720 ZeroMqServer.cpp:24] Work thread zeromq 
+I0315 10:36:42.199894 166174720 ZeroMqServer.cpp:24] Work thread zeromq 
+I0315 10:36:43.202101 166174720 ZeroMqServer.cpp:24] Work thread zeromq 
+I0315 10:36:44.207052 166174720 ZeroMqServer.cpp:24] Work thread zeromq 
+I0315 10:36:45.210558 166174720 ZeroMqServer.cpp:24] Work thread zeromq 
+I0315 10:36:46.212877 166174720 ZeroMqServer.cpp:24] Work thread zeromq 
+I0315 10:36:47.213384 166174720 ZeroMqServer.cpp:24] Work thread zeromq 
+I0315 10:36:48.217582 166174720 ZeroMqServer.cpp:24] Work thread zeromq 
+I0315 10:36:49.219266 166174720 ZeroMqServer.cpp:24] Work thread zeromq 
+I0315 10:36:50.220369 166174720 ZeroMqServer.cpp:24] Work thread zeromq 
+I0315 10:36:51.225263 166174720 ZeroMqServer.cpp:24] Work thread zeromq 
+I0315 10:36:52.225401 166174720 ZeroMqServer.cpp:24] Work thread zeromq 
+I0315 10:36:53.229951 166174720 ZeroMqServer.cpp:24] Work thread zeromq 
+I0315 10:36:54.232151 166174720 ZeroMqServer.cpp:24] Work thread zeromq 
+I0315 10:36:55.232266 166174720 ZeroMqServer.cpp:24] Work thread zeromq 
+I0315 10:36:56.235882 166174720 ZeroMqServer.cpp:24] Work thread zeromq 
+I0315 10:36:57.240345 166174720 ZeroMqServer.cpp:24] Work thread zeromq 
+I0315 10:36:58.244323 166174720 ZeroMqServer.cpp:24] Work thread zeromq 
+I0315 10:36:59.247040 166174720 ZeroMqServer.cpp:24] Work thread zeromq 
+I0315 10:37:00.247489 166174720 ZeroMqServer.cpp:24] Work thread zeromq 
+I0315 10:37:01.250593 166174720 ZeroMqServer.cpp:24] Work thread zeromq 
+I0315 10:37:02.254055 166174720 ZeroMqServer.cpp:24] Work thread zeromq 
+I0315 10:37:03.258780 166174720 ZeroMqServer.cpp:24] Work thread zeromq 
+I0315 10:37:04.261214 166174720 ZeroMqServer.cpp:24] Work thread zeromq 
+I0315 10:37:05.262473 166174720 ZeroMqServer.cpp:24] Work thread zeromq 
+I0315 10:37:06.265379 166174720 ZeroMqServer.cpp:24] Work thread zeromq 
+I0315 10:37:07.269517 166174720 ZeroMqServer.cpp:24] Work thread zeromq 
+I0315 10:37:08.274266 166174720 ZeroMqServer.cpp:24] Work thread zeromq 
+I0315 10:37:09.278076 166174720 ZeroMqServer.cpp:24] Work thread zeromq 
+I0315 10:37:10.282160 166174720 ZeroMqServer.cpp:24] Work thread zeromq 
+I0315 10:37:11.286293 166174720 ZeroMqServer.cpp:24] Work thread zeromq 
+I0315 10:37:12.291371 166174720 ZeroMqServer.cpp:24] Work thread zeromq 
+I0315 10:37:13.295130 166174720 ZeroMqServer.cpp:24] Work thread zeromq 
+I0315 10:37:14.295226 166174720 ZeroMqServer.cpp:24] Work thread zeromq 
+I0315 10:37:15.297637 166174720 ZeroMqServer.cpp:24] Work thread zeromq 
+I0315 10:37:16.302104 166174720 ZeroMqServer.cpp:24] Work thread zeromq 
+I0315 10:37:17.306212 166174720 ZeroMqServer.cpp:24] Work thread zeromq 
+I0315 10:37:18.310377 166174720 ZeroMqServer.cpp:24] Work thread zeromq 
+I0315 10:37:19.311728 166174720 ZeroMqServer.cpp:24] Work thread zeromq 
+I0315 10:37:20.313082 166174720 ZeroMqServer.cpp:24] Work thread zeromq 
+I0315 10:37:21.317778 166174720 ZeroMqServer.cpp:24] Work thread zeromq 
+I0315 10:37:22.323096 166174720 ZeroMqServer.cpp:24] Work thread zeromq 
+I0315 10:37:23.326444 166174720 ZeroMqServer.cpp:24] Work thread zeromq 
+I0315 10:37:24.327083 166174720 ZeroMqServer.cpp:24] Work thread zeromq 
+I0315 10:37:25.329116 166174720 ZeroMqServer.cpp:24] Work thread zeromq 
+I0315 10:37:26.331146 166174720 ZeroMqServer.cpp:24] Work thread zeromq 
+I0315 10:37:27.333925 166174720 ZeroMqServer.cpp:24] Work thread zeromq 
+I0315 10:37:28.335275 166174720 ZeroMqServer.cpp:24] Work thread zeromq 
+I0315 10:37:29.336277 166174720 ZeroMqServer.cpp:24] Work thread zeromq 
+I0315 10:37:30.338923 166174720 ZeroMqServer.cpp:24] Work thread zeromq 
+I0315 10:37:31.344244 166174720 ZeroMqServer.cpp:24] Work thread zeromq 
+I0315 10:37:32.347182 166174720 ZeroMqServer.cpp:24] Work thread zeromq 

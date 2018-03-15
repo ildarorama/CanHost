@@ -1,0 +1,6 @@
+Log file created at: 2018/03/15 10:20:30
+Running on machine: MacBook-Pro-Ildar.local
+Log line format: [IWEF]mmdd hh:mm:ss.uuuuuu threadid file:line] msg
+I0315 10:20:30.409574 2796585792 Settings.cpp:17] Load server config from settings.json
+E0315 10:20:30.410565 2796585792 Settings.cpp:27] Can not load config: cannot open file
+I0315 10:20:30.411054 2796585792 Settings.cpp:34] Create default seting file: settings.json
