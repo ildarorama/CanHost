@@ -9,4 +9,5 @@ DeviceType::DeviceType(std::string name) : _name(name)
 {
 
 }
-
+DeviceType DeviceType::DIGITAL_OUTPUT_32_CHANNEL("Output module");
+DeviceType DeviceType::DIGITAL_INPUT_32_CHANNEL("Input module");

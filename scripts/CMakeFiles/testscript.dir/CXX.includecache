@@ -1,0 +1,16 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/Users/i386/CLionProjects/CanHost/hardware/Module.h
+string
+-
+
+/Users/i386/CLionProjects/CanHost/scripts/testscript.cpp
+../hardware/Module.h
+/Users/i386/CLionProjects/CanHost/hardware/Module.h
+

@@ -1,0 +1,1 @@
+/Library/Developer/CommandLineTools/usr/bin/c++  -dynamiclib -Wl,-headerpad_max_install_names  -o libtestscript.dylib -install_name @rpath/libtestscript.dylib CMakeFiles/testscript.dir/testscript.cpp.o -lboost_iostreams -lboost_filesystem -lboost_system -lboost_thread-mt -lglog -lpthread ../objects/libCanHostObject.a 

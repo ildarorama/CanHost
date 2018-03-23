@@ -21,7 +21,7 @@ ZeroMqServer::ZeroMqServer() {
 void ZeroMqServer::_server_func() {
     while(true) {
         boost::this_thread::sleep_for(boost::chrono::seconds(1));
-        LOG(INFO) << "Work thread zeromq ";
+        //LOG(INFO) << "Work thread zeromq ";
     }
 }
 

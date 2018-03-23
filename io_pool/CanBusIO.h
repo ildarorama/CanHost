@@ -15,7 +15,7 @@ class CanBusIO final {
 public:
     CanBusIO();
     void start();
-    void sendMessage(const CanMessage& message);
+    void sendMessage(CanMessage* message);
 private:
     int _socket_fd;
 
@@ -27,8 +27,9 @@ private:
     bool initIpBus();
     boost::thread* _worker;
     void _pool_func();
+    void _receive_packet();
     bool _running;
-    boost::lockfree::queue<CanMessage> _queue;
+    boost::lockfree::queue<CanMessage *,boost::lockfree::capacity<50>> _queue;
 };
 
 

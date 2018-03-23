@@ -19,6 +19,7 @@
 #include <iostream>
 #include "CanBusIO.h"
 #include "../utils/Settings.h"
+#include "../context/ScriptContext.h"
 
 
 bool CanBusIO::initIpBus() {
@@ -99,12 +100,12 @@ void CanBusIO::_pool_func() {
         boost::this_thread::sleep_for(boost::chrono::seconds(1));
 
 
-        CanMessage mes(NULL,0);
+        CanMessage *mes;
 
 
         if (_queue.pop(mes)) {
 
-            LOG(INFO) << "Receive message " << mes.data();
+            LOG(INFO) << "Receive message " << mes->data();
         }
 
 #ifdef USE_CAN
@@ -124,8 +125,19 @@ CanBusIO::CanBusIO() {
     _running=true;
 }
 
-void CanBusIO::sendMessage(const CanMessage& message) {
+void CanBusIO::sendMessage(CanMessage* message) {
     _queue.push(message);
 }
+
+
+
+void CanBusIO::_receive_packet() {
+    ScriptContext &ctx=ScriptContext::Instance();
+
+    //ctx.card(3)->device(3)->output(23,true);
+    //ctx.card(2)->device(2)->RELAY(3);
+
+}
+
 
 

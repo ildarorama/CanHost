@@ -5,20 +5,26 @@
 #ifndef CANHOST_CARD_H
 #define CANHOST_CARD_H
 
+#include <vector>
+#include <map>
 
-#include "Module.h"
+#include "Device.h"
+
+
 
 class Card {
 private:
-    Card(const Module *m, const int slot);
-
-    int _slot;
-    Module* _module;
+    std::map<int,Device*> _devices;
+    const int _slot;
 public:
-    Card(Module * m,const int c);
+    Card(const int slot);
     const int slot();
+    Device * device(int idx=0);
+    void putDevice(Device *device,const int idx);
 
 };
+
+
 
 
 #endif //CANHOST_CARD_H

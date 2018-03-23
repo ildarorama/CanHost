@@ -6,23 +6,30 @@
 #define CANHOST_DEVICE_H
 
 
-#include "Card.h"
+#include <vector>
 #include "DeviceType.h"
+#include "Channel.h"
 
 class Device {
-protected:
-    Device(const Card &card, int address, DeviceType &deviceType);
 private:
-    const Card& _card;
-    DeviceType& _deviceType;
+    DeviceType &_deviceType;
     int _address;
     int _fw_version_minor;
     int _fw_version_major;
+
+
+    std::vector<Channel *> _channels;
 public:
     int address();
-    const DeviceType& deviceType();
+    const DeviceType &deviceType();
+    Device(int address,DeviceType &deviceType);
+
+    Channel * channel(const int idx);
+    void addChannel(Channel *);
+
     std::string fw_version();
 };
+
 
 
 #endif //CANHOST_DEVICE_H

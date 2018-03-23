@@ -6,6 +6,7 @@
 #include "webserver/WebServer.h"
 #include "hid_io/ZeroMqServer.h"
 
+
 #include <glog/logging.h>
 #include <dlfcn.h>
 
@@ -28,10 +29,33 @@ int main(int argc, char* argv[]) {
     CanBusIO* io=new CanBusIO();
     io->start();
     module=new Module("test");
-    Card* card=new Card(module,1);
+    Card* card=new Card(1);
 
-    io->sendMessage(CanMessage((void *)"123",4));
+    io->sendMessage(new CanMessage((void *)"123",4));
 
+    Device *dev=new Device(33,DeviceType::DIGITAL_OUTPUT_32_CHANNEL);
+
+    for(int i=0;i<32;i++) {
+        Channel *ch=new Channel(i,DeviceClass::DIGITAL_OUTPUT);
+        dev->addChannel(ch);
+
+        if (i == 5) {
+            module->addAlias("ALI",ch);
+        }
+    }
+
+
+    std::cout << dev->fw_version() << std::endl;
+
+    card->putDevice(dev,2);
+
+    card->device(2)->channel(2)->output(true);
+
+    module->alias("ALI")->output(true);
+
+    //c.
+
+    //c.channel(3).state(true);
 
     char *error;
     int (*work)(Module *);

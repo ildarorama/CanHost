@@ -15,6 +15,14 @@ std::string Module::name() {
     return "sd";
 }
 
-void Module::test() {
-    std::cout << "Test is work \n";
+void Module::addAlias(std::string alias, Channel *channel) {
+    _aliases.insert(std::pair<std::string,Channel *>(alias,channel));
+}
+
+Channel *Module::alias(std::string alias) {
+    return _aliases.at(alias);
+}
+
+void Module::addCard(Card *card) {
+    _cards.insert(std::pair<int,Card *>(card->slot(),card));
 }

@@ -1,0 +1,3 @@
+/Users/i386/CLionProjects/CanHost/scripts/CMakeFiles/rebuild_cache.dir
+/Users/i386/CLionProjects/CanHost/scripts/CMakeFiles/edit_cache.dir
+/Users/i386/CLionProjects/CanHost/scripts/CMakeFiles/testscript.dir
