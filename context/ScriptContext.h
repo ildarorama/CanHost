@@ -20,7 +20,7 @@ public:
     Module *module();
     Card* card(int slot);
     void putAlias(std::string alias, ChannelAlias channel);
-    std::string &hasAlias(int card,int device, int channel);
+    std::string hasAlias(int card,int device, int channel);
 private:
 
     std::vector<Card *> _cards;

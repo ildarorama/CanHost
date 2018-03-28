@@ -29,11 +29,12 @@ Module *ScriptContext::module() {
     return _module;
 }
 
-std::string &ScriptContext::hasAlias(int card, int device, int channel) {
+std::string ScriptContext::hasAlias(int card, int device, int channel) {
     std::map<std::string,ChannelAlias>::iterator it;
 
-    for(it=aliases.begin(),it != aliases.end();it++) {
-        ChannelAlias alias=it.
+    for(it=aliases.begin();it != aliases.end();it++) {
+
     }
-    return <#initializer#>;
+    std::string v=std::string("test");
+    return v;
 }

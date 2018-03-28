@@ -4,7 +4,9 @@
 
 #include "ZeroMqServer.h"
 
-#import <zmq.h>
+#import "zmq.hpp"
+
+#include <iostream>
 #include <glog/logging.h>
 
 
@@ -19,7 +21,15 @@ ZeroMqServer::ZeroMqServer() {
 
 
 void ZeroMqServer::_server_func() {
+    zmq::context_t c(3);
+    zmq::socket_t s(c,zmq::socket_type::pair);
+    s.bind("tcp://0.0.0.0:7777");
+
+    zmq::message_t *m=new zmq::message_t(10000);
     while(true) {
+
+        s.recv(m,0);
+        std::cout << "Receive new packet " << std::endl;
         boost::this_thread::sleep_for(boost::chrono::seconds(1));
         //LOG(INFO) << "Work thread zeromq ";
     }
@@ -31,16 +41,6 @@ void ZeroMqServer::stop() {
 }
 
 void ZeroMqServer::start() {
-    zmq_init(2);
-    _context=zmq_ctx_new();
-    zmq_msg_t t;
-
-
-    void * _socket = zmq_socket(_context,ZMQ_PAIR);
-    zmq_bind(_socket,"udp://192.168.1.1:5559");
-    zmq_recvmsg(_socket,&t,ZMQ_DONTWAIT);
-    zmq_send(_socket,"123",3,ZMQ_BACKLOG);
-    zmq_close(_socket);
 
     _worker=new boost::thread(&ZeroMqServer::_server_func,this);
 
