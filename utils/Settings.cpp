@@ -16,7 +16,7 @@ Settings::Settings() {
 
 bool Settings::load() {
     LOG(INFO) << "Load server config from " << SERVER_CONFIG_FILE;
-    boost::property_tree::ptree pt;
+
     try {
         boost::property_tree::read_json(SERVER_CONFIG_FILE, pt);
         _web_port=pt.get<int>("web_server_port");
@@ -48,6 +48,17 @@ bool Settings::load() {
         return false;
     }
     return true;
+}
+
+
+int Settings::version() {
+    return _version;
+}
+
+std::string Settings::config() {
+    std::stringstream ss;
+    boost::property_tree::write_json(ss,pt);
+    return ss.str();
 }
 
 bool Settings::createDefault() {

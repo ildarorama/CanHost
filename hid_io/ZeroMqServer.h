@@ -13,11 +13,12 @@ public:
     static ZeroMqServer& Instance();
     void start();
 private:
+
     ZeroMqServer();
     ZeroMqServer(ZeroMqServer const&) = delete;
     ZeroMqServer& operator= (ZeroMqServer const&) = delete;
     void * _context;
-    bool _running=true;
+    bool volatile _running=true;
     boost::thread* _worker;
     void _server_func();
 

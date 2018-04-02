@@ -12,8 +12,6 @@ endif()
 
 
 file(GLOB hardware
-        "protobuf/*.h"
-        "protobuf/*.cc"
         "hardware/*.h"
         "hardware/*.cpp"
         "context/*.h"
