@@ -2,6 +2,10 @@ cmake_minimum_required(VERSION 3.0)
 
 project(CanHost)
 
+find_package(Protobuf REQUIRED)
+set(Protobuf_INCLUDE_DIR,"hid_io")
+set(Protobuf_LIBRARIES,"/usr/local/Cellar/protobuf@2.6/2.6.0/lib/libprotobuf.dylib")
+
 if(UNIX AND NOT APPLE)
     set(LINUX TRUE)
 endif()
@@ -19,6 +23,8 @@ file(GLOB hardware
         "io_pool/*.h"
         "io_pool/*.cpp"
         "hid_io/*.h"
+        "hid_io/*.cc"
+        "hid_io/*.hpp"
         "hid_io/*.cpp"
         "webserver/*.h"
         "webserver/*.cpp")

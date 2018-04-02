@@ -6,9 +6,10 @@
 
 #import "zmq.hpp"
 
+
 #include <iostream>
 #include <glog/logging.h>
-#include "../protobuf/message.pb.h"
+#include "message.pb.h"
 
 ZeroMqServer &ZeroMqServer::Instance() {
     static ZeroMqServer s;
