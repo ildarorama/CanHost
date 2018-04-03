@@ -67,6 +67,21 @@ void ZeroMqServer::_server_func() {
                     sendTelemetry(s,t);
                 }
 
+                if ( t.type() == RequestType::CodeListRequest ) {
+                    t.set_seq(seq++);
+                    t.set_type(RequestType::CodeListResponse);
+                    Code *c=t.mutable_codelist()->Add();
+                    c->set_name("123");
+                    c->set_body("G1\nG2\nG5");
+                    c=t.mutable_codelist()->Add();
+                    c->set_name("456");
+                    c->set_body("G4\nG5\nG2");
+                    c=t.mutable_codelist()->Add();
+                    c->set_name("35454");
+                    c->set_body("G4\nG1\nG4");
+                    sendTelemetry(s,t);
+                }
+
                 if ( t.type() == RequestType::TelemtryRequest ) {
                     Telemetry t;
                     t.set_seq(seq++);
@@ -78,6 +93,10 @@ void ZeroMqServer::_server_func() {
                     t.mutable_state()->set_ycord(z++);
                     t.mutable_state()->set_zcord(z++);
                     sendTelemetry(s,t);
+                }
+
+                if ( t.type() == RequestType::PushButtonRequest ) {
+                    LOG(INFO) << "Receive packet PushButtonRequest " << t.pushbutton().name() << " state: " << t.pushbutton().state();
                 }
 
             }
