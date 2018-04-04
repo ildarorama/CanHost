@@ -46,8 +46,9 @@ void ZeroMqServer::_server_func() {
     double z=1.3;
     while(_running) {
 
-        if (s.recv(m,0)) {
-
+        int rc=s.recv(m,0);
+        if (rc>0) {
+            LOG(INFO) << "Receive ZMQ telemetry size: " << rc;
             if ( t.ParseFromArray(m->data(),m->size()) ) {
                 LOG(INFO) << "Receive ZMQ telemetry type: " << RequestType_Name(t.type());
 
