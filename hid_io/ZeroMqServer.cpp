@@ -6,7 +6,7 @@
 
 #import "zmq.hpp"
 
-
+#include <boost/date_time.hpp>
 #include <iostream>
 #include <glog/logging.h>
 #include "message.pb.h"
@@ -95,6 +95,21 @@ void ZeroMqServer::_server_func() {
                     t.mutable_state()->set_zcord(z++);
                     sendTelemetry(s,t);
                 }
+
+                if ( t.type() == RequestType::CodeLoadRequest ) {
+                    Telemetry t;
+                    t.set_seq(seq++);
+                    t.set_type(RequestType::CodeLoadResponse);
+                    // create your formatting
+
+
+                    t.mutable_error()->set_message("Could not load script ");
+                    t.mutable_error()->set_code(1);
+                    std::string sd=boost::posix_time::to_iso_string(boost::posix_time::second_clock::local_time());
+                    t.mutable_error()->set_date(sd);
+                    sendTelemetry(s,t);
+                }
+
 
                 if ( t.type() == RequestType::PushButtonRequest ) {
                     LOG(INFO) << "Receive packet PushButtonRequest " << t.pushbutton().name() << " state: " << t.pushbutton().state();
