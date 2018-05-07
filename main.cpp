@@ -51,7 +51,6 @@ int main(int argc, char* argv[]) {
         }
     }
 
-
     std::cout << dev->fw_version() << std::endl;
 
     card->putDevice(dev,2);

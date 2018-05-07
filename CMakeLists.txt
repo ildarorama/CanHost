@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.0)
 
 project(CanHost)
 
-find_package(Protobuf REQUIRED)
+#find_package(Protobuf REQUIRED)
 set(Protobuf_INCLUDE_DIR,"hid_io")
 set(Protobuf_LIBRARIES,"/usr/local/Cellar/protobuf@2.6/2.6.0/lib/libprotobuf.dylib")
 
@@ -29,7 +29,10 @@ file(GLOB hardware
 
 set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY objects)
-#set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "../")
+set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY objects)
+
+add_definitions("-Wno-deprecated -g")
+
 
 link_libraries(boost_iostreams boost_filesystem boost_system boost_thread-mt boost_date_time-mt glog pthread dl zmq protobuf)
 include_directories("/usr/local/opt/protobuf@2.6/include" "/usr/local/include")
@@ -41,11 +44,15 @@ if(LINUX)
     add_definitions("-DUSE_CAN")
 endif()
 
-#add_library(CanHostObject STATIC hardware/Module.cpp hardware/Module.h hardware/Card.cpp hardware/Card.h hardware/Device.cpp hardware/Device.h utils/Utils.cpp utils/Utils.h hardware/DiscreteOutput.cpp hardware/DiscreteOutput.h hardware/DiscreteInput.cpp hardware/DiscreteInput.h hardware/DeviceType.cpp hardware/DeviceType.h io_pool/CanBusIO.cpp io_pool/CanBusIO.h utils/Settings.cpp utils/Settings.h)
-
-#add_executable(CanHost main.cpp hardware/Module.cpp hardware/Module.h hardware/Card.cpp hardware/Card.h hardware/Device.cpp hardware/Device.h utils/Utils.cpp utils/Utils.h hardware/DiscreteOutput.cpp hardware/DiscreteOutput.h hardware/DiscreteInput.cpp hardware/DiscreteInput.h hardware/DeviceType.cpp hardware/DeviceType.h io_pool/CanBusIO.cpp io_pool/CanBusIO.h utils/Settings.cpp utils/Settings.h webserver/WebServer.cpp webserver/WebServer.h webserver/StatusCode.h webserver/SimpleServer.h webserver/ServerUtility.h hid_io/ZeroMqServer.cpp hid_io/ZeroMqServer.h io_pool/CanMessage.cpp io_pool/CanMessage.h)
-add_executable(CanHost main.cpp ${hardware} hardware/ChannelAlias.cpp hardware/ChannelAlias.h)
+add_library(CanHostObject STATIC ${hardware})
+add_executable(CanHost main.cpp ${hardware})
 
 target_compile_options(CanHost PUBLIC "-std=c++11")
-#target_compile_options(CanHostObject PUBLIC "-std=c++11")
+set_target_properties(CanHostObject
+            PROPERTIES
+            CMAKE_RUNTIME_OUTPUT_DIRECTORY "../objects"
+        )
+target_compile_options(CanHostObject PUBLIC "-std=c++11")
 
+
+ADD_SUBDIRECTORY(scripts)
