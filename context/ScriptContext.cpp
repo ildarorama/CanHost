@@ -13,6 +13,11 @@ ScriptContext &ScriptContext::Instance() {
 ScriptContext::ScriptContext() {
 }
 
+ScriptLine& ScriptContext::line() {
+    static ScriptLine _line(Instance());
+    return _line;
+}
+
 Card *ScriptContext::card(int slot) {
     return _cards.at(slot);
 }
@@ -27,6 +32,26 @@ void ScriptContext::setModule(Module *module) {
 
 Module *ScriptContext::module() {
     return _module;
+}
+
+void ScriptContext::wait(unsigned int ms) {
+    usleep(ms*1000);
+}
+
+void ScriptContext::log(const char* format, ...) {
+    va_list vl;
+    va_start(vl, format);
+    auto ret = vprintf(format, vl);
+    va_end(vl);
+    LOG(INFO) << ret;
+}
+
+google::NullStream::basic_ostream& ScriptContext::log() {
+    return LOG(INFO);
+}
+
+bool ScriptContext::hasAlias(std::string alias) {
+    return aliases.count(alias);
 }
 
 std::string ScriptContext::hasAlias(int card, int device, int channel) {

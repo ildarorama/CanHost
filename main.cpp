@@ -10,6 +10,7 @@
 
 #include <glog/logging.h>
 #include <dlfcn.h>
+#include <csetjmp>
 
 
 
@@ -60,19 +61,26 @@ int main(int argc, char* argv[]) {
     SC.module()->alias("ALI")->output(true);
 
     char *error;
-    int (*work)(Module *);
+    int (*work)(ScriptContext &ctx,std::string arg);
 #ifdef USE_CAN
     void* handle = dlopen("plugin/libtestscript.so", RTLD_LAZY);
 #else
-    void* handle = dlopen("plugin/libtestscript.dylib", RTLD_LAZY);
+    void* handle = dlopen("libCanHostPlugin.dylib", RTLD_NOW|RTLD_LOCAL);
 #endif
 
-//    work =(int (*)(Module *)) dlsym(handle, "work");
-//    if ((error = dlerror()) != NULL)  {
-  //      fprintf (stderr, "%s\n", error);
-//        exit(1);
-//    }
-//    printf ("%d\n", (*work)(module));
+    work =(int (*)(ScriptContext &ctx,std::string arg)) dlsym(handle, "call");
+    if ((error = dlerror()) != NULL)  {
+        fprintf (stderr, "%s\n", error);
+        exit(1);
+    }
+    std::string line="123";
+
+    std::jmp_buf context;
+    if(setjmp(context)) {
+        std::cout << "Exception in script " << std::endl;
+    } else {
+        work(SC, line);
+    }
     dlclose(handle);
 
     WebServer::WebServer::Instance().start();

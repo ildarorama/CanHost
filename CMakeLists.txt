@@ -28,8 +28,8 @@ file(GLOB hardware
         "webserver/*.cpp")
 
 set(CMAKE_CXX_STANDARD 11)
-set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY objects)
-set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY objects)
+set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ../bin)
+set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ../bin)
 
 add_definitions("-Wno-deprecated -g")
 
@@ -45,14 +45,15 @@ if(LINUX)
 endif()
 
 add_library(CanHostObject STATIC ${hardware})
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/bin)
 add_executable(CanHost main.cpp ${hardware})
 
 target_compile_options(CanHost PUBLIC "-std=c++11")
 set_target_properties(CanHostObject
             PROPERTIES
-            CMAKE_RUNTIME_OUTPUT_DIRECTORY "../objects"
+            CMAKE_RUNTIME_OUTPUT_DIRECTORY "../bin"
         )
 target_compile_options(CanHostObject PUBLIC "-std=c++11")
 
-
+set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/bin)
 ADD_SUBDIRECTORY(scripts)
